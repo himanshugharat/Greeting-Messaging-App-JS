@@ -1,0 +1,22 @@
+{
+  "name": "greeting-messaging-app-js",
+  "version": "1.0.0",
+  "description": "A greeting message app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himanshugharat/Greeting-Messaging-App-JS.git"
+  },
+  "author": "himanshu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/himanshugharat/Greeting-Messaging-App-JS/issues"
+  },
+  "homepage": "https://github.com/himanshugharat/Greeting-Messaging-App-JS#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
