@@ -15,7 +15,7 @@ app.get("/", (request, response) => {
 });
 
 //Require notes routes
-require('./routes/greeting.routes')(app);
+require("./routes/greeting.routes")(app);
 
 //listen for request
 app.listen(3000, () => {

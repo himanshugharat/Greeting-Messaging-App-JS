@@ -1,8 +1,17 @@
+const { response } = require("express");
 const fs = require("fs");
-const path="./config/greetingData.json"
+const { request } = require("http");
+const path = "./config/data.json";
+const service = require("../serviceLayer/serviceLayer");
+
+exports.simpleMessage = (request, response) => {
+  service.Greet((message) => {
+    response.send(message);
+  });
+};
+
 exports.findAll = (request, response) => {
-  fs.readFile(path, (err, data) => {
-    if (err) throw err;
+  service.loadData((data) => {
     response.send(data);
   });
 };
