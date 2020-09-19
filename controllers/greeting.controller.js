@@ -15,3 +15,16 @@ exports.findAll = (request, response) => {
     response.send(data);
   });
 };
+
+exports.nameGreeting = (request, response) => {
+  let fname = request.params.fname;
+  let lname = request.params.lname;
+  if (!lname) {
+    lname = "";
+  }
+  if (!fname) {
+    fname = "";
+  }
+  reply = fname + " " + lname + "helloWorld ";
+  response.send(reply);
+};

@@ -6,4 +6,7 @@ module.exports = (app) => {
 
   //greeting message
   app.get("/greet", greeting.simpleMessage);
+
+  //name greeting message
+  app.get("/greetByName/:fname?/:lname?", greeting.nameGreeting);
 };
