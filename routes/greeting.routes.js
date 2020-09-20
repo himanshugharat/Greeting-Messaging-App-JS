@@ -1,3 +1,11 @@
+/*
+ *Purpose  : The routes calls and methods
+ *@files   : greeting.route.js
+ *@overview: route contents
+ *@author  : Himanshu Gharat
+ *@verson  : 1.0
+ *@since   : 19-09-2020
+ */
 module.exports = (app) => {
   const greeting = require("../controllers/greeting.controller");
 
@@ -16,6 +24,9 @@ module.exports = (app) => {
   //find messages by id
   app.get("/greeting/:id", greeting.findById);
 
-  //find messages by id
+  //edit messages by id
   app.put("/greeting/:id", greeting.editById);
+
+  //delete messages by id
+  app.delete("/greeting/:id", greeting.deleteById);
 };

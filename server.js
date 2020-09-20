@@ -1,3 +1,12 @@
+/*
+ *@Execution: cmd>node server.js or cmd>nodemon server.js
+ *Purpose  : The starting the local host
+ *@files   : server.js
+ *@overview: establish the localhost server
+ *@author  : Himanshu Gharat
+ *@verson  : 1.0
+ *@since   : 19-09-2020
+ */
 const bodyParser = require("body-parser");
 const express = require("express");
 //creste app
