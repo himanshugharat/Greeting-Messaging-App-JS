@@ -9,4 +9,7 @@ module.exports = (app) => {
 
   //name greeting message
   app.get("/greetByName/:fname?/:lname?", greeting.nameGreeting);
+
+  //create new message
+  app.post("/greeting", greeting.create);
 };
