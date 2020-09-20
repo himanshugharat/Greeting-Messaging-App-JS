@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.get("/greetByName/:fname?/:lname?", greeting.nameGreeting);
 
   //create new message
-  app.post("/greeting", greeting.create);
+  app.post("/greeting", greeting.creates);
 
   //find all messages
   app.get("/greeting", greeting.findAll);
