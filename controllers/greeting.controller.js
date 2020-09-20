@@ -26,7 +26,7 @@ exports.nameGreeting = (request, response) => {
 exports.create = (request, response) => {
   service.loadData((data) => {
     var message = {
-      id: data.length,
+      id: data.length + 1,
       first_name: request.body.first_name,
       last_name: request.body.last_name,
     };
@@ -54,11 +54,28 @@ exports.findAll = (request, response) => {
 exports.findById = (request, response) => {
   var reply;
   let ids = request.params.id;
-  service.loadData((data) => { 
+  service.loadData((data) => {
+    for (let i = 0; i < data.length; i++) {
+      data[i].id == ids
+        ? (reply = { msg: data[i] })
+        : (reply = { msg: "not found" });
+    }
+  });
+  response.send(reply);
+};
+
+exports.editById = (request, response) => {
+  var reply;
+  let ids = request.params.id;
+  service.loadData((data) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id == ids) {
+        data[i].first_name = request.body.first_name;
+        data[i].last_name = request.body.last_name;
         reply = { msg: data[i] };
-        break;
+        fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
+          console.log("all set");
+        });
       } else {
         reply = { msg: "not found" };
       }

@@ -13,6 +13,9 @@ module.exports = (app) => {
   //find all messages
   app.get("/greeting", greeting.findAll);
 
-   //find messages by id
-   app.get("/greetById/:id", greeting.findById);
+  //find messages by id
+  app.get("/greeting/:id", greeting.findById);
+
+  //find messages by id
+  app.put("/greeting/:id", greeting.editById);
 };
