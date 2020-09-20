@@ -42,11 +42,27 @@ exports.create = (request, response) => {
 };
 /**
  * @description: get all the data from json
- * @param {*} request 
- * @param {*} response 
+ * @param {*} request
+ * @param {*} response
  */
 exports.findAll = (request, response) => {
   service.loadData((data) => {
     response.send(data);
   });
+};
+
+exports.findById = (request, response) => {
+  var reply;
+  let ids = request.params.id;
+  service.loadData((data) => { 
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id == ids) {
+        reply = { msg: data[i] };
+        break;
+      } else {
+        reply = { msg: "not found" };
+      }
+    }
+  });
+  response.send(reply);
 };
