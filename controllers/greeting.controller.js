@@ -10,12 +10,6 @@ exports.simpleMessage = (request, response) => {
   });
 };
 
-exports.findAll = (request, response) => {
-  service.loadData((data) => {
-    response.send(data);
-  });
-};
-
 exports.nameGreeting = (request, response) => {
   let fname = request.params.fname;
   let lname = request.params.lname;
@@ -44,5 +38,15 @@ exports.create = (request, response) => {
       msg: "the data is added",
     };
     response.send(reply);
+  });
+};
+/**
+ * @description: get all the data from json
+ * @param {*} request 
+ * @param {*} response 
+ */
+exports.findAll = (request, response) => {
+  service.loadData((data) => {
+    response.send(data);
   });
 };
