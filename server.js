@@ -9,7 +9,7 @@
  */
 const bodyParser = require("body-parser");
 const express = require("express");
-//creste app
+//create app
 const app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded

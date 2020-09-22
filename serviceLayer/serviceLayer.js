@@ -13,7 +13,7 @@
  */
 exports.loadData = (callback) => {
   const fs = require("fs");
-  const path = "./db/data.json";
+  const path = "./config/data.json";
   let input = fs.readFileSync(path);
   let data = JSON.parse(input);
   return callback(data);

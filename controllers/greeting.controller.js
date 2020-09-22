@@ -9,8 +9,9 @@
 const { response } = require("express");
 const fs = require("fs");
 const { request } = require("http");
-const path = "./db/data.json";
+const path = "./config/data.json";
 const service = require("../serviceLayer/serviceLayer");
+const Joi = require("joi");
 
 /**
  * @description: simple get helloworld message
@@ -18,9 +19,13 @@ const service = require("../serviceLayer/serviceLayer");
  * @param {*} response
  */
 exports.simpleMessage = (request, response) => {
-  service.Greet((message) => {
-    response.send(message);
-  });
+  try {
+    service.Greet((message) => {
+      response.send(message);
+    });
+  } catch (error) {
+    response.status(500).send(error.message);
+  }
 };
 
 /**
@@ -29,16 +34,20 @@ exports.simpleMessage = (request, response) => {
  * @param {*} response
  */
 exports.nameGreeting = (request, response) => {
-  let fname = request.params.fname;
-  let lname = request.params.lname;
-  if (!lname) {
-    lname = "";
+  try {
+    let firstName = request.params.fname;
+    let lastName = request.params.lname;
+    if (!firstName) {
+      lastName = "";
+    }
+    if (!lastName) {
+      firstName = "";
+    }
+    reply = firstName + " " + lastName + "helloWorld ";
+    response.status(200).send(reply);
+  } catch (error) {
+    response.status(500).send(error.message);
   }
-  if (!fname) {
-    fname = "";
-  }
-  reply = fname + " " + lname + "helloWorld ";
-  response.send(reply);
 };
 
 /**
@@ -47,32 +56,44 @@ exports.nameGreeting = (request, response) => {
  * @param {*} response
  */
 exports.create = (request, response) => {
-  service.loadData((data) => {
-    var message = {
-      id: data.length + 1,
-      first_name: request.body.first_name,
-      last_name: request.body.last_name,
-    };
-    data.push(message);
-    fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
-      console.log("all set");
-    });
-    var reply = {
-      msg: "the data is added",
-    };
-    response.send(reply);
-  });
+  const { error } = validatorInput(request.body);
+  if (error) {
+    return response.status(500).send(error.details[0].message);
+  } else {
+    try {
+      service.loadData((data) => {
+        var message = {
+          id: data.length + 1,
+          firstName: request.body.first_name,
+          lastName: request.body.last_name,
+        };
+        data.push(message);
+        fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
+          console.log("all set");
+        });
+        var reply = {
+          msg: "the data is added",
+        };
+        response.status(200).send(reply);
+      });
+    } catch (error) {
+      response.status(500).send(error.message);
+    }
+  }
 };
-
 /**
  * @description: get all the data from json
  * @param {*} request
  * @param {*} response
  */
 exports.findAll = (request, response) => {
-  service.loadData((data) => {
-    response.send(data);
-  });
+  try {
+    service.loadData((data) => {
+      response.status(200).send(data);
+    });
+  } catch (error) {
+    response.status(500).send(error.message);
+  }
 };
 
 /**
@@ -81,16 +102,20 @@ exports.findAll = (request, response) => {
  * @param {*} response
  */
 exports.findById = (request, response) => {
-  var reply;
-  let ids = request.params.id;
-  service.loadData((data) => {
-    for (let i = 0; i < data.length; i++) {
-      data[i].id == ids
-        ? (reply = { msg: data[i] })
-        : (reply = { msg: "not found" });
-    }
-  });
-  response.send(reply);
+  try {
+    var reply;
+    let ids = request.params.id;
+    service.loadData((data) => {
+      for (let i = 0; i < data.length; i++) {
+        data[i].id == ids
+          ? (reply = { msg: data[i] })
+          : (reply = { msg: "not found" });
+      }
+    });
+    response.status(200).send(reply);
+  } catch (error) {
+    response.status(500).send(error.message);
+  }
 };
 
 /**
@@ -99,45 +124,64 @@ exports.findById = (request, response) => {
  * @param {*} response
  */
 exports.editById = (request, response) => {
-  var reply;
-  let ids = request.params.id;
-  service.loadData((data) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].id == ids) {
-        data[i].first_name = request.body.first_name;
-        data[i].last_name = request.body.last_name;
-        reply = { msg: data[i] };
-        fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
-          console.log("all set");
-        });
-      } else {
-        reply = { msg: "not found" };
-      }
+  const { error } = validatorInput(request.body);
+  if (error) {
+    return response.status(500).send(error.details[0].message);
+  } else {
+    try {
+      var reply;
+      let ids = request.params.id;
+      service.loadData((data) => {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].id == ids) {
+            data[i].first_name = request.body.first_name;
+            data[i].last_name = request.body.last_name;
+            reply = { msg: data[i] };
+            fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
+              console.log("all set");
+            });
+          } else {
+            reply = { msg: "not found" };
+          }
+        }
+      });
+      response.status(200).send(reply);
+    } catch (error) {
+      response.status(500).send(error.message);
     }
-  });
-  response.send(reply);
+  }
 };
-
 /**
  * @description: delete a entry in json file using id
  * @param {*} request
  * @param {*} response
  */
 exports.deleteById = (request, response) => {
-  var reply;
-  let ids = request.params.id;
-  service.loadData((data) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].id == ids) {
-        data.splice(i, i);
-        fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
-          console.log("deleted");
-        });
-        reply = { msg: "deleted succesfully" };
-      } else {
-        reply = { msg: "not found" };
+  try {
+    var reply;
+    let ids = request.params.id;
+    service.loadData((data) => {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].id == ids) {
+          data.splice(i, i);
+          fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
+            console.log("deleted");
+          });
+          reply = { msg: "deleted succesfully" };
+        } else {
+          reply = { msg: "not found" };
+        }
       }
-    }
+    });
+    response.status(200).send(reply);
+  } catch (error) {
+    response.status(500).send(error.message);
+  }
+};
+validatorInput = (message) => {
+  const valid = Joi.object({
+    first_name: Joi.string().min(3),
+    last_name: Joi.string().min(3),
   });
-  response.send(reply);
+  return valid.validate(message);
 };
