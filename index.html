@@ -25,11 +25,48 @@
     <div class="side-bar">
         </br>
         </br>
-        <a href=""><img src="images/wallet-outline.png" alt="all" width="20px"> All</a>
-        <a href=""><img src="images/wallet-plus-outline.png" alt="add" width="20px"> add</a>
-        <a href=""><img src="images/file-document-edit-outline.png" alt="all" width="20px"> edit</a>
-        <a href=""><img src="images/trash-can-outline.png" alt="all" width="20px"> delete</a>
+        <div class="openBtn">
+            <a href=""><img src="images/wallet-outline.png" alt="all" width="20px"> </a>
+            <button class="openButton" onclick=""><strong>All</strong></button>
+        </div>
+        <div class="openBtn">
+            <a href=""><img src="images/wallet-plus-outline.png" alt="add" width="20px"></a>
+            <button class="openButton" onclick="openForm()"><strong>Add</strong></button>
+        </div>
+        <div class="openBtn">
+            <a href=""><img src="images/file-document-edit-outline.png" alt="all" width="20px"></a>
+            <button class="openButton" onclick="openForm()"><strong>Edit</strong></button>
+        </div>
+        <div class="openBtn">
+            <a href=""><img src="images/trash-can-outline.png" alt="all" width="20px">delete</a>
+            <button class="openButton" onclick="openForm()"><strong>Delete</strong></button>
+        </div>
     </div>
+    <div class="loginPopup">
+        <div class="formPopup" id="popupForm">
+            <form action="/action_page.php" class="formContainer">
+                <h2>Please Enter Details </h2>
+                <label for="firstName">
+                    <strong>First Name</strong>
+                </label>
+                <input type="text" id="firstName" placeholder="Your first name" name="firstName" required>
+                <label for="lastName">
+                    <strong>Last Name</strong>
+                </label>
+                <input type="text" id="lastName" placeholder="Your last name" name="lastName" required>
+                <button type="submit" class="btn">submit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openForm() {
+            document.getElementById("popupForm").style.display = "block";
+        }
+        function closeForm() {
+            document.getElementById("popupForm").style.display = "none";
+        }
+    </script>
     <div class="card">
         <div class="card-container">
             <p>id:1 <br><b>Hello</b>(Greeting) <br><b>Himanshu</b>(name)<br><br>15 min ago</p>
