@@ -22,6 +22,7 @@ exports.simpleMessage = (request, response) => {
   try {
     service.Greet((message) => {
       response.send(message);
+      document.getElementById("card-data").innerHTML(message)
     });
   } catch (error) {
     response.status(500).send(error.message);

@@ -10,7 +10,7 @@ module.exports = (app) => {
   const greeting = require("../controllers/greeting.controller");
 
   //greeting message
-  app.get("/greet", greeting.simpleMessage);
+  app.get("/a", greeting.simpleMessage);
 
   //name greeting message
   app.get("/greetByName/:fname?/:lname?", greeting.nameGreeting);
