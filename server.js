@@ -9,6 +9,7 @@
  */
 const bodyParser = require("body-parser");
 const express = require("express");
+var path = require("path");
 //create app
 const app = express();
 
@@ -21,6 +22,17 @@ app.use(bodyParser.json());
 //define a simple route
 app.get("/", (request, response) => {
   response.json({ message: "welcome to messaging app" });
+});
+
+//get our css file on server
+app.use("/cssFiles", express.static(__dirname + "/css"));
+
+//get our image folder on server
+app.use("/images", express.static(__dirname + "/images"));
+
+//display our index file on server
+app.get("/a", (request, response) => {
+  response.sendFile("index.html", { root: path.join(__dirname) });
 });
 
 //Require notes routes
