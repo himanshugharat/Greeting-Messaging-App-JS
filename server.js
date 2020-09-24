@@ -9,6 +9,7 @@
  */
 const bodyParser = require("body-parser");
 const express = require("express");
+const cors=require("cors")
 //create app
 const app = express();
 
@@ -17,6 +18,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
+
+//cors error solved
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 //define a simple route
 app.get("/", (request, response) => {

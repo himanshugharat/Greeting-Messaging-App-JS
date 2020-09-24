@@ -56,16 +56,16 @@ exports.nameGreeting = (request, response) => {
  * @param {*} response
  */
 exports.create = (request, response) => {
-  const { error } = validatorInput(request.body);
-  if (error) {
-    return response.status(500).send(error.details[0].message);
-  } else {
-    try {
+  // const { error } = validatorInput(request.body);
+  // if (error) {
+  //   return response.status(500).send(error.details[0].message);
+  // } else {
+  //   try {
       service.loadData((data) => {
         var message = {
           id: data.length + 1,
-          firstName: request.body.first_name,
-          lastName: request.body.last_name,
+          firstName: request.body.firstName,
+          lastName: request.body.lastName,
         };
         data.push(message);
         fs.writeFile(path, JSON.stringify(data, null), "utf8", (err) => {
@@ -76,10 +76,10 @@ exports.create = (request, response) => {
         };
         response.status(200).send(reply);
       });
-    } catch (error) {
-      response.status(500).send(error.message);
-    }
-  }
+//    } catch (error) {
+//      response.status(500).send(error.message);
+ //   }
+ // }
 };
 /**
  * @description: get all the data from json
