@@ -70,7 +70,7 @@ exports.create = (request, response) => {
         var reply = {
           msg: "the data is added",
         };
-        response.status(200).send(reply);
+        response.status(200).send(reply).send(data);
       });
 
 };
